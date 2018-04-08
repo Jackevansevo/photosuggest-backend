@@ -1,0 +1,46 @@
+!_TAG_FILE_FORMAT	2	/extended format; --format=1 will not append ;" to lines/
+!_TAG_FILE_SORTED	1	/0=unsorted, 1=sorted, 2=foldcase/
+!_TAG_PROGRAM_AUTHOR	Darren Hiebert	/dhiebert@users.sourceforge.net/
+!_TAG_PROGRAM_NAME	Exuberant Ctags	//
+!_TAG_PROGRAM_URL	http://ctags.sourceforge.net	/official site/
+!_TAG_PROGRAM_VERSION	5.9~svn20110310	//
+Env	main.go	/^var Env envSpec$/;"	v
+TestBuildURL	flickr_test.go	/^func TestBuildURL(t *testing.T) {$/;"	f
+TestProcessJSON	flickr_test.go	/^func TestProcessJSON(t *testing.T) {$/;"	f
+TestProcessMalformedJSON	flickr_test.go	/^func TestProcessMalformedJSON(t *testing.T) {$/;"	f
+_	flickr.go	/^var flickrURL, _ = url.Parse("https:\/\/www.flickr.com\/services\/rest\/")$/;"	v
+bing	bing.go	/^type bing struct {$/;"	t
+bingPhoto	bing.go	/^type bingPhoto struct {$/;"	t
+bingSearchParams	bing.go	/^var bingSearchParams = url.Values{$/;"	v
+buildURL	bing.go	/^func (b bing) buildURL(query string, licenses []string) string {$/;"	f
+buildURL	flickr.go	/^func (f flickr) buildURL(query string, licenses []string) string {$/;"	f
+client	main.go	/^var client = http.Client{Timeout: time.Duration(3 * time.Second)}$/;"	v
+defaultSources	main.go	/^var defaultSources []string$/;"	v
+envSpec	main.go	/^type envSpec struct {$/;"	t
+flickr	flickr.go	/^type flickr struct {$/;"	t
+flickrPhoto	flickr.go	/^type flickrPhoto struct {$/;"	t
+flickrSearchParams	flickr.go	/^var flickrSearchParams = url.Values{$/;"	v
+flickrURL	flickr.go	/^var flickrURL, _ = url.Parse("https:\/\/www.flickr.com\/services\/rest\/")$/;"	v
+getBytes	utils.go	/^func getBytes(url string, client http.Client) ([]byte, error) {$/;"	f
+licenseInfo	flickr.go	/^type licenseInfo struct {$/;"	t
+licenseTypes	flickr.go	/^var licenseTypes = map[string]licenseInfo{$/;"	v
+main	bing.go	/^package main$/;"	p
+main	flickr.go	/^package main$/;"	p
+main	flickr_test.go	/^package main$/;"	p
+main	main.go	/^func main() {$/;"	f
+main	main.go	/^package main$/;"	p
+main	sources.go	/^package main$/;"	p
+main	test_utils.go	/^package main$/;"	p
+main	utils.go	/^package main$/;"	p
+newBing	bing.go	/^func newBing(clinet http.Client, apiKey string) (source, error) {$/;"	f
+newFlickr	flickr.go	/^func newFlickr(client http.Client, apiKey string) (source, error) {$/;"	f
+process	bing.go	/^func (b bing) process(body []byte) ([]interface{}, error) {$/;"	f
+process	flickr.go	/^func (f flickr) process(body []byte) ([]interface{}, error) {$/;"	f
+query	bing.go	/^func (b bing) query(query string, licenses []string) ([]interface{}, error) {$/;"	f
+query	flickr.go	/^func (f flickr) query(query string, licenses []string) ([]interface{}, error) {$/;"	f
+query	main.go	/^func query(c *gin.Context) {$/;"	f
+result	main.go	/^type result struct {$/;"	t
+setupSources	sources.go	/^func setupSources() error {$/;"	f
+source	sources.go	/^type source interface {$/;"	t
+sources	main.go	/^var sources = make(map[string]source)$/;"	v
+stubSource	test_utils.go	/^func stubSource(s source, path string, query string) (results []interface{}, _ error) {$/;"	f
