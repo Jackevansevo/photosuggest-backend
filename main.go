@@ -70,6 +70,7 @@ func query(c *gin.Context) {
 
 	switch params.License {
 	case "":
+	case "any":
 	case "public":
 	case "share":
 	case "sharecommercially":
