@@ -6,12 +6,15 @@ import (
 	"io/ioutil"
 	"net/http"
 	"net/url"
+	"regexp"
 	"strings"
 )
 
 type bingPhoto struct {
 	Name             string `json:"name"`
 	URL              string `json:"contentUrl"`
+	Thumbnail        string `json:"thumbnailUrl"`
+	Origin           string `json:"hostPageUrl"`
 	InsightsMetadata struct {
 		BestRepresentativeQuery struct {
 			Text string `json:"text"`
@@ -28,6 +31,10 @@ var bingSearchParams = url.Values{
 	"count":   {"150"},
 	"Type":    {"Photo"},
 	"modules": {"Tags"},
+}
+
+var domainBlackList = []*regexp.Regexp{
+	regexp.MustCompile(".*pixabay\\.com"),
 }
 
 func newBing(clinet http.Client, apiKey string) (source, error) {
@@ -121,6 +128,15 @@ func (b bing) query(query string, license string) ([]interface{}, error) {
 	return json, nil
 }
 
+func isBlackListedDomain(target string) bool {
+	for _, regex := range domainBlackList {
+		if regex.MatchString(target) {
+			return true
+		}
+	}
+	return false
+}
+
 func (b bing) process(body []byte) ([]interface{}, error) {
 
 	var data struct {
@@ -131,24 +147,28 @@ func (b bing) process(body []byte) ([]interface{}, error) {
 		return nil, err
 	}
 
-	photos := make([]interface{}, len(data.Photos))
+	photos := make([]interface{}, 0, len(data.Photos))
 
-	for i, p := range data.Photos {
+	for _, photo := range data.Photos {
 
-		if strings.Split(p.URL, "/")[2] == "cdn.pixabay.com" {
-			continue
-		}
+		domain := strings.Split(photo.URL, "/")[2]
 
-		photos[i] = struct {
-			Source      string `json:"source"`
-			Name        string `json:"name"`
-			URL         string `json:"url"`
-			Description string `json:"description"`
-		}{
-			"bing",
-			p.Name,
-			p.URL,
-			p.InsightsMetadata.BestRepresentativeQuery.Text,
+		if !isBlackListedDomain(domain) {
+			photos = append(photos, struct {
+				Source      string `json:"source"`
+				Origin      string `json:"origin"`
+				Title       string `json:"title"`
+				Thumbnail   string `json:"thumbnail"`
+				URL         string `json:"url"`
+				Description string `json:"description"`
+			}{
+				"bing",
+				photo.Origin,
+				photo.Name,
+				photo.Thumbnail,
+				photo.URL,
+				photo.InsightsMetadata.BestRepresentativeQuery.Text,
+			})
 		}
 	}
 

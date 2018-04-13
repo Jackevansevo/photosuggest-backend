@@ -41,7 +41,8 @@ type flickrPhoto struct {
 	Farm        int    `json:"farm"`
 	Title       string `json:"title"`
 	License     string `json:"license"`
-	Owner       string `json:"ownername"`
+	Owner       string `json:"owner"`
+	OwnerName   string `json:"ownername"`
 	Description struct {
 		Content string `json:"_content"`
 	} `json:"description"`
@@ -84,6 +85,8 @@ func (f flickr) buildURL(query string, license string) string {
 	var flickrLicenses []string
 
 	switch license {
+	case "public":
+		flickrLicenses = []string{}
 	case "share":
 		flickrLicenses = []string{"1", "2", "3", "4", "5", "6"}
 	case "sharecommercially":
@@ -106,6 +109,7 @@ func (f flickr) buildURL(query string, license string) string {
 
 	newURL.RawQuery = params.Encode()
 	return newURL.String()
+
 }
 
 func (f flickr) query(query string, license string) ([]interface{}, error) {
@@ -144,12 +148,18 @@ func (f flickr) process(body []byte) ([]interface{}, error) {
 			Source      string `json:"source"`
 			Owner       string `json:"owner"`
 			URL         string `json:"url"`
+			Thumbnail   string `json:"thumbnail"`
+			Origin      string `json:"origin"`
+			Title       string `json:"title"`
 			Description string `json:"description"`
 			licenseInfo `json:"license"`
 		}{
 			"flickr",
-			p.Owner,
+			p.OwnerName,
 			fmt.Sprintf(urlFmt, p.Farm, p.Server, p.ID, p.Secret),
+			fmt.Sprintf(urlFmt, p.Farm, p.Server, p.ID, p.Secret),
+			fmt.Sprintf("https://flickr.com/%s/%s", p.Owner, p.ID),
+			p.Title,
 			p.Description.Content,
 			licenseTypes[p.License],
 		}
