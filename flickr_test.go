@@ -33,21 +33,23 @@ func TestProcessMalformedJSON(t *testing.T) {
 
 func TestBuildURL(t *testing.T) {
 
-	flickr, err := newFlickr(client, "")
+	flickrClient, err := newFlickr(client, "")
 	if err != nil {
 		t.Error(err)
 	}
 
-	licenses := map[string][]string{
-		"1,2,3":       {"modify"},
-		"4,5,6":       {"commercial"},
-		"1,2,3,4,5,6": {"modify", "commercial"},
+	licenses := map[string]string{
+		"public":             "7,8,9,10",
+		"share":              "1,2,3,4,5,6,7,8,9,10",
+		"sharecommercially":  "4,5,6,7,8,9,10",
+		"modify":             "1,2,4,5,7,8,9,10",
+		"modifycommercially": "4,5,7,8,9,10",
+		"":                   "1,2,3,4,5,6,7,8,9,10",
 	}
 
-	for expected, types := range licenses {
-		res := flickr.buildURL("dogs", types)
-		u, _ := url.Parse(res)
-		urlParams := u.Query()["license"][0]
+	for category, expected := range licenses {
+		parsed, _ := url.Parse(flickrClient.buildURL("dogs", category))
+		urlParams := parsed.Query()["license"][0]
 		if urlParams != expected {
 			t.Errorf("expected %#v, got: %#v", expected, urlParams)
 		}
