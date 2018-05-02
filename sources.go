@@ -1,10 +1,18 @@
 package main
 
+import (
+	"net/http"
+	"time"
+)
+
 type source interface {
 	query(string, string) ([]interface{}, error)
-	buildURL(string, string) string
 	process([]byte) ([]interface{}, error)
 }
+
+var client = http.Client{Timeout: time.Duration(10 * time.Second)}
+var sources = make(map[string]source)
+var defaultSources []string
 
 func setupSources() error {
 
@@ -20,9 +28,7 @@ func setupSources() error {
 	}
 	sources["bing"] = bing
 
-	for k := range sources {
-		defaultSources = append(defaultSources, k)
-	}
+	defaultSources = []string{"bing", "flickr"}
 
 	return nil
 }

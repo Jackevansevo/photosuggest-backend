@@ -2,8 +2,6 @@ package main
 
 import (
 	"log"
-	"net/http"
-	"time"
 
 	"github.com/gin-contrib/cors"
 	"github.com/gin-gonic/gin"
@@ -17,13 +15,6 @@ type envSpec struct {
 
 // Env contains environment variables
 var Env envSpec
-
-// Default HTTP client
-var client = http.Client{Timeout: time.Duration(3 * time.Second)}
-
-var sources = make(map[string]source)
-
-var defaultSources []string
 
 type result struct {
 	photos []interface{}
