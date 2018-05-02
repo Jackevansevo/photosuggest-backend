@@ -58,7 +58,7 @@ var flickrSearchParams = url.Values{
 	"extras":       {"description,license,owner_name"},
 }
 
-func newFlickr(client http.Client, apiKey string) (source, error) {
+func newFlickr(client http.Client, apiKey string) (flickr, error) {
 
 	flickrService := flickr{client, *flickrURL}
 

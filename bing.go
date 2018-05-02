@@ -37,7 +37,7 @@ var domainBlackList = []*regexp.Regexp{
 	regexp.MustCompile(".*pixabay\\.com"),
 }
 
-func newBing(clinet http.Client, apiKey string) (source, error) {
+func newBing(clinet http.Client, apiKey string) (bing, error) {
 
 	var bingService bing
 
