@@ -58,6 +58,16 @@ func query(c *gin.Context) {
 		return
 	}
 
+	for _, source := range params.Sources {
+		switch source {
+		case "flickr":
+		case "bing":
+		default:
+			c.AbortWithStatusJSON(405, gin.H{"error": "unknown source"})
+			return
+		}
+	}
+
 	switch params.License {
 	case "":
 	case "any":
