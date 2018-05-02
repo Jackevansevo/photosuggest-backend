@@ -87,10 +87,10 @@ func query(c *gin.Context) {
 
 	// Start a Goroutine to Query each source
 	for _, source := range params.Sources {
-		go func(query string, source string) {
-			results, err := sources[source].query(query, params.License)
+		go func(source string) {
+			results, err := sources[source].query(params.Query, params.License)
 			resultsChan <- result{results, source, err}
-		}(params.Query, source)
+		}(source)
 	}
 
 	results := make([]interface{}, 0)
